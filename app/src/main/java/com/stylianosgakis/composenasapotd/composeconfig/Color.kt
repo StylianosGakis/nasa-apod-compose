@@ -1,4 +1,4 @@
-package com.stylianosgakis.composenasapotd.ui
+package com.stylianosgakis.composenasapotd.composeconfig
 
 import androidx.ui.graphics.Color
 
