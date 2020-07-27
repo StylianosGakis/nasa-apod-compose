@@ -1,4 +1,4 @@
-package com.stylianosgakis.ComposeNasaPOTD.ui
+package com.stylianosgakis.composenasapotd.ui
 
 import androidx.ui.graphics.Color
 

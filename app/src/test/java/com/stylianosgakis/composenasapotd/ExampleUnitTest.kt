@@ -1,4 +1,4 @@
-package com.stylianosgakis.ComposeNasaPOTD
+package com.stylianosgakis.composenasapotd
 
 import org.junit.Test
 

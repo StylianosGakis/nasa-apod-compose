@@ -1,4 +1,4 @@
-package com.stylianosgakis.ComposeNasaPOTD.ui
+package com.stylianosgakis.composenasapotd.ui
 
 import androidx.compose.Composable
 import androidx.ui.foundation.isSystemInDarkTheme

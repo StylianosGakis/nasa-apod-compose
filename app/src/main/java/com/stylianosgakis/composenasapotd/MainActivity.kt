@@ -1,4 +1,4 @@
-package com.stylianosgakis.ComposeNasaPOTD
+package com.stylianosgakis.composenasapotd
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.Surface
-import com.stylianosgakis.ComposeNasaPOTD.ui.ComposeNasaPOTDTheme
+import com.stylianosgakis.composenasapotd.ui.ComposeNasaPOTDTheme
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
