@@ -2,7 +2,11 @@ package com.stylianosgakis.composenasapotd.di
 
 import android.content.Context
 import androidx.room.Room
+import coil.ImageLoader
 import com.stylianosgakis.composenasapotd.BuildConfig
+import com.stylianosgakis.composenasapotd.database.AppDatabase
+import com.stylianosgakis.composenasapotd.database.NasaPhotoDao
+import com.stylianosgakis.composenasapotd.network.NasaApiService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import okhttp3.Interceptor
@@ -13,9 +17,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
-import com.stylianosgakis.composenasapotd.database.AppDatabase
-import com.stylianosgakis.composenasapotd.database.NasaPhotoDao
-import com.stylianosgakis.composenasapotd.network.NasaApiService
 
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -27,17 +28,17 @@ val appModule = module {
     single<Retrofit> { provideRetrofit(BuildConfig.BASE_URL, get()) }
     single<NasaApiService> { provideNasaApi(get()) }
 
-    // single<ImageLoader> { provideCoilImageLoader(get()) }
+    single<ImageLoader> { provideCoilImageLoader(get()) }
 
     single<AppDatabase> { provideRoomDatabase(get()) }
     single<NasaPhotoDao> { provideNasaPhotoDao(get()) }
 }
 
-/*fun provideCoilImageLoader(applicationContext: Context): ImageLoader {
+fun provideCoilImageLoader(applicationContext: Context): ImageLoader {
     return ImageLoader.Builder(applicationContext)
-        .placeholder(R.drawable.loading_animation)
+        //.placeholder(R.drawable.loading_animation)
         .build()
-}*/
+}
 
 fun provideLoggingInterceptor(): HttpLoggingInterceptor {
     return HttpLoggingInterceptor().apply {
@@ -69,7 +70,7 @@ fun provideOkHttpClient(
     return OkHttpClient()
         .newBuilder()
         .addInterceptor(nasaAuthInterceptor)
-        .addInterceptor(loggingInterceptor)
+        //.addInterceptor(loggingInterceptor)
         .build()
 }
 

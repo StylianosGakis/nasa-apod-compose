@@ -10,7 +10,8 @@ sealed class MainStateEvent {
     object DownloadPhotoOfToday : MainStateEvent()
     data class DownloadPhotoOfDay(val date: NasaDate) : MainStateEvent()
     data class DownloadPhotosSinceDate(val startDate: NasaDate) : MainStateEvent()
-    data class DownloadPhotosBetweenDates(val startDate: NasaDate, val endDate: NasaDate) : MainStateEvent()
+    data class DownloadPhotosBetweenDates(val startDate: NasaDate, val endDate: NasaDate) :
+        MainStateEvent()
 }
 
 sealed class MainViewEffect {
@@ -20,5 +21,11 @@ sealed class MainViewEffect {
 
 data class MainViewState(
     val loadingStatus: LoadingStatus = LoadingStatus.Idle,
-    val listOfPhotos: List<NasaPhoto> = listOf()
-)
+    val listOfPhotos: List<NasaPhoto> = listOf(),
+) {
+    fun isLoading() = loadingStatus == LoadingStatus.Loading
+
+    companion object {
+        fun Loading() = MainViewState(loadingStatus = LoadingStatus.Loading)
+    }
+}

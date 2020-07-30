@@ -2,6 +2,12 @@ package com.stylianosgakis.composenasapotd.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.stylianosgakis.composenasapotd.model.NasaDate
+import com.stylianosgakis.composenasapotd.model.NasaPhoto
+import com.stylianosgakis.composenasapotd.repository.NasaRepository
+import com.stylianosgakis.composenasapotd.util.LoadingStatus
+import com.stylianosgakis.composenasapotd.util.NetworkState
+import com.stylianosgakis.composenasapotd.util.exhaustive
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -11,15 +17,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import com.stylianosgakis.composenasapotd.model.NasaDate
-import com.stylianosgakis.composenasapotd.model.NasaPhoto
-import com.stylianosgakis.composenasapotd.repository.NasaRepository
-import com.stylianosgakis.composenasapotd.ui.main.MainStateEvent
-import com.stylianosgakis.composenasapotd.ui.main.MainViewEffect
-import com.stylianosgakis.composenasapotd.ui.main.MainViewState
-import com.stylianosgakis.composenasapotd.util.LoadingStatus
-import com.stylianosgakis.composenasapotd.util.NetworkState
-import com.stylianosgakis.composenasapotd.util.exhaustive
 import timber.log.Timber
 
 @InternalCoroutinesApi
@@ -54,7 +51,7 @@ class MainViewModel(
 
     // region Event handling
     private suspend fun processEvent(stateEvent: MainStateEvent) =
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Default) {
             when (stateEvent) {
                 MainStateEvent.NoEvent -> {
                     return@launch

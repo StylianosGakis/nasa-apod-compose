@@ -20,6 +20,4 @@ interface NasaPhotoDao {
             ORDER BY date DESC"""
     )
     suspend fun getAllPhotos(): List<NasaPhoto>
-
-
 }

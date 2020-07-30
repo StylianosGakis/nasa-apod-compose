@@ -1,18 +1,16 @@
 package com.stylianosgakis.composenasapotd.network
 
+import com.stylianosgakis.composenasapotd.model.NasaPhoto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import com.stylianosgakis.composenasapotd.model.NasaPhoto
 
 interface NasaApiService {
     @GET(".")
-    suspend fun getPhotoOfToday(): Response<List<NasaPhoto>>
+    suspend fun getPhotoOfToday(): Response<NasaPhoto>
 
     @GET(".")
-    suspend fun getPhotoOfDate(
-        @Query("date") date: String
-    ): Response<List<NasaPhoto>>
+    suspend fun getPhotoOfDate(@Query("date") date: String): Response<NasaPhoto>
 
     @GET(".")
     suspend fun getPhotosSinceDate(

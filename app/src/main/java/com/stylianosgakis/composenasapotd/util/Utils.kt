@@ -1,9 +1,5 @@
 package com.stylianosgakis.composenasapotd.util
 
-import android.content.Context
-import android.view.View
-import android.widget.Toast
-
 sealed class LoadingStatus {
     object Loading : LoadingStatus()
     object Idle : LoadingStatus()
@@ -25,30 +21,8 @@ sealed class NetworkState<T> {
     }
 }
 
-fun Context.showToast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-
-fun Context.showLongToast(text: String) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-
 /**
  * Force exhaustive when statements
  */
 val <T> T.exhaustive: T
     get() = this
-
-inline fun <T : View> T.invisibleIf(predicate: () -> Boolean): T {
-    this.visibility = if (predicate()) {
-        View.INVISIBLE
-    } else {
-        View.VISIBLE
-    }
-    return this
-}
-
-inline fun <T : View> T.goneIf(predicate: () -> Boolean): T {
-    this.visibility = if (predicate()) {
-        View.GONE
-    } else {
-        View.VISIBLE
-    }
-    return this
-}
