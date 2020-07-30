@@ -16,3 +16,5 @@ class NasaDate private constructor(
         }
     }
 }
+
+fun String.toLocalDate(): LocalDate = LocalDate.parse(this)

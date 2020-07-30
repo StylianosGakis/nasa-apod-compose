@@ -60,7 +60,7 @@ class NasaRepository(
             emit(NetworkState.loading())
             val apiResponse: Response<T> = networkCall()
             val responseBody = apiResponse.body()
-            Timber.d("ApiResponse: $responseBody")
+            //Timber.d("ApiResponse: $responseBody")
             if (apiResponse.isSuccessful) {
                 if (responseBody != null) {
                     databaseInsert(responseBody)

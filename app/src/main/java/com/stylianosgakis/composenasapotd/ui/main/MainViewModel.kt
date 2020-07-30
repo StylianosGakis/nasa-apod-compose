@@ -22,7 +22,7 @@ import timber.log.Timber
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 class MainViewModel(
-    private val nasaRepository: NasaRepository
+    private val nasaRepository: NasaRepository,
 ) : ViewModel() {
     // region State variables
     private val mutableMainStateEvent = MutableStateFlow<MainStateEvent>(MainStateEvent.NoEvent)
@@ -111,7 +111,7 @@ class MainViewModel(
 
     private suspend fun downloadPhotoOfDateRange(
         startDate: NasaDate,
-        endDate: NasaDate
+        endDate: NasaDate,
     ) {
         nasaRepository.downloadPhotosBetweenDates(startDate, endDate)
             .collect { networkState ->
@@ -141,13 +141,14 @@ class MainViewModel(
     private fun updateListOfNasaPhotos(nasaPhotos: List<NasaPhoto>) {
         val currentState = mutableMainViewState.value
         val currentPhotos = currentState.listOfPhotos
-        mutableMainViewState.value =
-            currentState.copy(listOfPhotos = (currentPhotos union nasaPhotos).toList())
+        mutableMainViewState.value = currentState.copy(
+            listOfPhotos = (currentPhotos union nasaPhotos).filter { it.isImage() }.toList()
+        )
     }
 
     private fun <T> handleRepositoryResponse(
         networkState: NetworkState<T>,
-        successMethod: (T) -> Unit
+        successMethod: (T) -> Unit,
     ) {
         Timber.d("HandleRepositoryResponse: $networkState")
         updateLoadingState(networkState is NetworkState.Loading)
