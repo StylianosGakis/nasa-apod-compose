@@ -137,7 +137,7 @@ fun NasaPhotoCard(imageLoader: ImageLoader, nasaPhoto: NasaPhoto) {
     val context = ContextAmbient.current
     val (sdBitmap, setSdBitmap) = state<Bitmap?> { null }
     val (hdBitmap, setHdBitmap) = state<Bitmap?> { null }
-    val imageAsset = sdBitmap?.asImageAsset()
+    val sdImageAsset = sdBitmap?.asImageAsset()
     val hdImageAsset = hdBitmap?.asImageAsset()
 
     launchInComposition(nasaPhoto.url) {
@@ -158,13 +158,13 @@ fun NasaPhotoCard(imageLoader: ImageLoader, nasaPhoto: NasaPhoto) {
         elevation = 4.dp,
         modifier = Modifier.padding(8.dp),
     ) {
-        val asset = hdImageAsset ?: imageAsset
+        val asset = hdImageAsset ?: sdImageAsset
         Column {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = when (asset) {
                     hdImageAsset -> Color.Black
-                    imageAsset -> Color.Gray
+                    sdImageAsset -> Color.Gray
                     else -> Color.White
                 },
             ) {
@@ -176,12 +176,12 @@ fun NasaPhotoCard(imageLoader: ImageLoader, nasaPhoto: NasaPhoto) {
                 )
             }
             Box(modifier = Modifier.defaultMinSizeConstraints(200.dp, 200.dp)) {
-                if (hdImageAsset != null || imageAsset != null) {
-                    val asset = hdImageAsset ?: imageAsset!!
+                if (hdImageAsset != null || sdImageAsset != null) {
+                    val imageAsset = hdImageAsset ?: sdImageAsset!!
                     Image(
                         modifier = Modifier.fillMaxWidth() + Modifier.layoutId("Image"),
                         contentScale = ContentScale.FillWidth,
-                        asset = asset,
+                        asset = imageAsset,
                     )
                 } else {
                     Text(text = "Error loading item")
