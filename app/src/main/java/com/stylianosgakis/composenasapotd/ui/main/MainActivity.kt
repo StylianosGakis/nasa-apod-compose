@@ -8,7 +8,9 @@ import androidx.compose.Composable
 import androidx.compose.collectAsState
 import androidx.compose.launchInComposition
 import androidx.compose.onActive
+import androidx.compose.onPreCommit
 import androidx.compose.state
+import androidx.ui.core.Alignment
 import androidx.ui.core.ContentScale
 import androidx.ui.core.ContextAmbient
 import androidx.ui.core.Modifier
@@ -23,11 +25,9 @@ import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.asImageAsset
 import androidx.ui.layout.Column
-import androidx.ui.layout.Spacer
 import androidx.ui.layout.defaultMinSizeConstraints
 import androidx.ui.layout.fillMaxSize
 import androidx.ui.layout.fillMaxWidth
-import androidx.ui.layout.height
 import androidx.ui.layout.padding
 import androidx.ui.material.Button
 import androidx.ui.material.Card
@@ -88,6 +88,10 @@ fun MainScreen(
         sendEvent(MainStateEvent.FetchDatabasePhotos)
     }
 
+    onPreCommit(viewState.value.listOfPhotos) {
+        viewState.value.listOfPhotos.lastOrNull()?.date?.toLocalDate()?.let(setLastDate)
+    }
+
     fun get10MoreDays() {
         viewState.value.listOfPhotos.lastOrNull()?.date?.toLocalDate()?.let(setLastDate)
         sendEvent(
@@ -106,26 +110,18 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize(),
             gravity = ContentGravity.Center
         ) {
-            if (viewState.value.isLoading()) {
-                CircularProgressIndicator()
-                Text(text = "Loading")
-            } else {
-                Button(
-                    onClick = ::get10MoreDays,
-                ) {
-                    Text("Load 10 more days")
-                }
-            }
+            LoadMoreButton(loading = viewState.value.isLoading(), onClick = ::get10MoreDays)
         }
     } else {
         LazyColumnItems(items = nasaPhotos) { nasaPhoto ->
             if (nasaPhotos.last() == nasaPhoto) {
-                Column {
+                Column(horizontalGravity = Alignment.CenterHorizontally) {
                     NasaPhotoCard(imageLoader, nasaPhoto = nasaPhoto)
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Button(onClick = ::get10MoreDays) {
-                        Text("Load 10 more days")
-                    }
+                    LoadMoreButton(
+                        modifier = Modifier.padding(20.dp),
+                        loading = viewState.value.isLoading(),
+                        onClick = ::get10MoreDays,
+                    )
                 }
             } else {
                 NasaPhotoCard(imageLoader, nasaPhoto = nasaPhoto)
@@ -190,6 +186,28 @@ fun NasaPhotoCard(imageLoader: ImageLoader, nasaPhoto: NasaPhoto) {
                 } else {
                     Text(text = "Error loading item")
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun LoadMoreButton(
+    modifier: Modifier = Modifier,
+    loading: Boolean,
+    onClick: () -> Unit,
+) {
+    Box(modifier = modifier) {
+        if (loading) {
+            Column {
+                CircularProgressIndicator()
+                Text(text = "Loading")
+            }
+        } else {
+            Button(
+                onClick = onClick,
+            ) {
+                Text("Load 10 more days")
             }
         }
     }
