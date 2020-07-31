@@ -184,7 +184,12 @@ fun NasaPhotoCard(imageLoader: ImageLoader, nasaPhoto: NasaPhoto) {
                         asset = imageAsset,
                     )
                 } else {
-                    Text(text = "Error loading item")
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        gravity = ContentGravity.Center
+                    ) {
+                        Text(text = "Loading image...")
+                    }
                 }
             }
         }
@@ -212,4 +217,3 @@ fun LoadMoreButton(
         }
     }
 }
-
