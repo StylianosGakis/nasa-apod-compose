@@ -199,7 +199,7 @@ fun LoadMoreButton(
 ) {
     Box(modifier = modifier) {
         if (loading) {
-            Column {
+            Column(horizontalGravity = Alignment.CenterHorizontally) {
                 CircularProgressIndicator()
                 Text(text = "Loading")
             }
